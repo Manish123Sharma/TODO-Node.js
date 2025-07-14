@@ -6,6 +6,8 @@ client/.env
 server/node_modules/
 server/.env
 
+node_modules/
+
 # General
 *.log
 .DS_Store
