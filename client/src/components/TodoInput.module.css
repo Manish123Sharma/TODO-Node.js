@@ -1,0 +1,19 @@
+.inputBox {
+    display: 'flex';
+    gap: '10px';
+    margin-bottom: '20px';
+}
+
+.input {
+    flex: 1;
+    padding: '10px';
+    font-size: '16px';
+}
+
+.button {
+    padding: '10px 20px';
+    background: '#007bff';
+    color: 'white';
+    border: 'none';
+    cursor: 'pointer';
+}
