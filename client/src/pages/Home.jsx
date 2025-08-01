@@ -1,45 +1,49 @@
-import React, { useEffect, useState } from 'react'
-import { createTodo, deleteTodo, fetchTodos, updateTodo } from '../api';
-import TodoItem from '../components/TodoItem';
+import React, { useState } from 'react'
+import '../App.css'
+import TodoInput from '../components/TodoInput';
 
 const Home = () => {
+
     const [todos, setTodos] = useState([]);
-    const [text, setText] = useState('');
+    const [filter, setFilter] = useState('all');
 
-    const loadTools = async () => {
-        const { data } = await fetchTodos();
-        setTodos(data);
+    const addTodo = (text) => {
+        setTodos([...todos, { id: Date.now(), text, completed: false }]);
     };
 
-    useEffect(() => {
-        loadTools();
-    }, []);
-
-    const handleAdd = async () => {
-        if (!text.trim()) return;
-        const { data } = await createTodo({ text });
-        setTodos([...todos, data]);
-        setText('');
+    const toggleTodo = (id) => {
+        setTodos(todos.map(todo =>
+            todo.id === id ? { ...todo, completed: !todo.completed } : todo
+        ));
     };
 
-    const handleUpdate = async (id, updatedTodo) => {
-        const { data } = await updateTodo(id, updatedTodo);
-        setTodos(todos.map(t => (t._id === id ? data : t)));
+    const deleteTodo = (id) => {
+        setTodos(todos.filter(todo => todo.id !== id));
     };
 
-    const handleDelete = async (id) => {
-        await deleteTodo(id);
-        setTodos(todos.filter(t => t._id !== id));
+    const editTodo = (id, newText) => {
+        setTodos(todos.map(todo =>
+            todo.id === id ? { ...todo, text: newText } : todo
+        ));
     };
 
     return (
-        <div className="container">
-            <h1>My TODO List</h1>
-            <input value={text} onChange={(e) => setText(e.target.value)} placeholder="Add a task" />
-            <button onClick={handleAdd}>Add</button>
-            {todos.map(todo => (
-                <TodoItem key={todo._id} todo={todo} onUpdate={handleUpdate} onDelete={handleDelete} />
-            ))}
+        <div className='container'>
+            <h1>📝 TODO List</h1>
+            <TodoInput addTodo={addTodo} />
+            {todos.length === 0 ? (
+                <p>No tasks added yet.</p>
+            ) : (
+                todos.map(todo => (
+                    <TodoItem
+                        key={todo.id}
+                        todo={todo}
+                        onToggle={toggleTodo}
+                        onDelete={deleteTodo}
+                        onEdit={editTodo}
+                    />
+                ))
+            )}
         </div>
     );
 };
