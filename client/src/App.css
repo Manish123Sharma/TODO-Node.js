@@ -1,17 +1,9 @@
 .container {
-    width: 500px;
-    margin: auto;
-    padding: 20px;
-    text-align: center;
-}
-
-.todo {
-    display: flex;
-    justify-content: space-between;
-    margin: 10px 0;
-}
-
-.completed {
-    text-decoration: line-through;
-    color: gray;
+    max-width: '600px';
+    margin: '40px auto';
+    padding: '20px';
+    border: '1px solid #ddd';
+    border-radius: '10px';
+    box-shadow: '0 0 10px rgba(0,0,0,0.1)';
+    font-family: sans-serif;
 }
