@@ -1,0 +1,32 @@
+.container {
+    display: 'flex';
+    align-items: 'center';
+    gap: '10px';
+    margin-bottom: '10px';
+}
+
+.text {
+    flex: 1;
+    font-size: '16px';
+}
+
+.editInput {
+    flex: 1;
+    padding: '5px';
+    font-size: '16px';
+}
+
+.edit {
+    background: '#ffc107';
+    border: 'none';
+    padding: '6px 10px';
+    cursor: 'pointer';
+}
+
+.delete {
+    background: '#dc3545';
+    color: 'white';
+    border: 'none';
+    padding: '6px 10px';
+    cursor: 'pointer';
+}

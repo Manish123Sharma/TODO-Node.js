@@ -1,23 +1,46 @@
-import React from 'react'
-import PropTypes from 'prop-types';
+import React, { useState } from 'react'
 
-const TodoItem = ({ todo, onUpdate, onDelete }) => {
+const TodoItem = ({ todo, onToggle, onDelete, onEdit }) => {
+    const [isEditing, setIsEditing] = useState(false);
+    const [text, setText] = useState(todo.text);
+
+    const handleEdit = () => {
+        if (isEditing) onEdit(todo.id, text);
+        setIsEditing(!isEditing);
+    };
     return (
-        <div className="todo">
-            <input type="checkbox" checked={todo.completed} onChange={() => onUpdate(todo._id, { ...todo, completed: !todo.completed })} />
-            <span className={todo.completed ? 'completed' : ''}>{todo.text}</span>
-            <button onClick={() => onDelete(todo._id)}>❌</button>
+        <div className='container'>
+            <input
+                type="checkbox"
+                checked={todo.completed}
+                onChange={() => onToggle(todo.id)}
+            />
+            {isEditing ? (
+                <input
+                    value={text}
+                    onChange={(e) => setText(e.target.value)}
+                    className='editInput'
+                />
+            ) : (
+                <span
+                className='text'
+                    style={{
+                        textDecoration: todo.completed ? 'line-through' : 'none',
+                    }}
+                >
+                    {todo.text}
+                </span>
+            )}
+            <button onClick={handleEdit} className='edit'>
+                {isEditing ? 'Save' : 'Edit'}
+            </button>
+            <button onClick={() => onDelete(todo.id)} className='delete'>
+                Delete
+            </button>
         </div>
     );
 };
-TodoItem.propTypes = {
-    todo: PropTypes.shape({
-        _id: PropTypes.string.isRequired,
-        text: PropTypes.string.isRequired,
-        completed: PropTypes.bool.isRequired,
-    }).isRequired,
-    onUpdate: PropTypes.func.isRequired,
-    onDelete: PropTypes.func.isRequired,
-};
+
+
 
 export default TodoItem;
