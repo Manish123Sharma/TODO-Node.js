@@ -23,6 +23,7 @@ const TodoInput = ({ addTodo }) => {
         </div>
     );
 };
+
 TodoInput.propTypes = {
     addTodo: PropTypes.func.isRequired,
 };
