@@ -34,18 +34,6 @@ const TodoInput = ({ addTodo }) => {
 
 
     return (
-        // <div className="todo-input-container">
-        //     <input
-        //         type="text"
-        //         placeholder="Add new..."
-        //         className="todo-input"
-        //         value={text}
-        //         onChange={(e) => setText(e.target.value)}
-        //     />
-        //     <button className="add-btn" onClick={handleAdd}>
-        //         ADD
-        //     </button>
-        // </div>
         <form className="todo-input" onSubmit={handleSubmit}>
             <div className="input-wrapper">
                 <input
@@ -54,19 +42,21 @@ const TodoInput = ({ addTodo }) => {
                     value={text}
                     onChange={(e) => setText(e.target.value)}
                 />
-                <MdCalendarToday
-                    className="calendar-icon"
-                    onClick={handleCalendarClick}
-                    title="Set due date"
-                />
-                <input
-                    type="date"
-                    ref={dateInputRef}
-                    min={today}
-                    value={dueDate}
-                    onChange={(e) => setDueDate(e.target.value)}
-                    style={{ display: "none" }}
-                />
+                <div className="calendar-wrapper">
+                    <MdCalendarToday
+                        className="calendar-icon"
+                        onClick={handleCalendarClick}
+                        title="Set due date"
+                    />
+                    <input
+                        type="date"
+                        ref={dateInputRef}
+                        min={today}
+                        value={dueDate}
+                        onChange={(e) => setDueDate(e.target.value)}
+                        className="date-picker"
+                    />
+                </div>
                 <button type="submit" className="add-btn">ADD</button>
             </div>
         </form>

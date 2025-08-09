@@ -1,71 +1,3 @@
-/* .todo-item {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background: #f7fafc;
-    padding: 10px;
-    border-radius: 8px;
-    margin-bottom: 10px;
-}
-
-.todo-text {
-    flex: 1;
-    font-size: 1rem;
-    margin-left: 10px;
-}
-
-.todo-text.completed {
-    text-decoration: line-through;
-    color: #888;
-}
-
-.edit-input {
-    flex: 1;
-    margin-left: 10px;
-    padding: 6px;
-}
-
-.todo-actions {
-    display: flex;
-    gap: 8px;
-}
-
-.edit-btn,
-.delete-btn,
-.save-btn {
-    border: none;
-    padding: 6px;
-    border-radius: 6px;
-    cursor: pointer;
-}
-
-.edit-btn {
-    background-color: #ecc94b;
-}
-
-.save-btn {
-    background-color: #38a169;
-    color: white;
-}
-
-.delete-btn {
-    background-color: #f56565;
-    color: white;
-}
-
-.edit-btn:hover {
-    background-color: #d69e2e;
-}
-
-.save-btn:hover {
-    background-color: #2f855a;
-}
-
-.delete-btn:hover {
-    background-color: #c53030;
-} */
-
-
 .todo-item {
     display: flex;
     align-items: center;
@@ -105,4 +37,39 @@
 .completed {
     text-decoration: line-through;
     color: #aaa;
+}
+
+.edit-btn,
+.delete-btn,
+.save-btn {
+    border: none;
+    padding: 6px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.edit-btn {
+    background-color: #ecc94b;
+}
+
+.save-btn {
+    background-color: #38a169;
+    color: white;
+}
+
+.delete-btn {
+    background-color: #f56565;
+    color: white;
+}
+
+.edit-btn:hover {
+    background-color: #d69e2e;
+}
+
+.save-btn:hover {
+    background-color: #2f855a;
+}
+
+.delete-btn:hover {
+    background-color: #c53030;
 }
