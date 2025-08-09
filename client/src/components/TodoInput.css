@@ -1,0 +1,79 @@
+/* .todo-input-container {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.todo-input {
+    flex: 1;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    outline: none;
+    font-size: 1rem;
+}
+
+.todo-input:focus {
+    border-color: #2b6cb0;
+}
+
+.add-btn {
+    background-color: #2b6cb0;
+    color: white;
+    border: none;
+    padding: 12px 18px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.add-btn:hover {
+    background-color: #1e4e8c;
+} */
+
+.todo-input {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 10px;
+    /* space between input and filters */
+}
+
+.input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.input-wrapper input[type="text"] {
+    flex: 1;
+    padding: 10px 40px 10px 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+}
+
+.calendar-icon {
+    position: absolute;
+    right: 90px;
+    /* leaves space for ADD button */
+    top: 50%;
+    transform: translateY(-50%);
+    color: #2f63d9;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.add-btn {
+    padding: 10px 16px;
+    border: none;
+    background-color: #2f63d9;
+    color: white;
+    border-radius: 8px;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.add-btn:hover {
+    background-color: #1f4fb3;
+}
