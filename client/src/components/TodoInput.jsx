@@ -14,6 +14,8 @@ const TodoInput = ({ addTodo }) => {
         e.preventDefault();
         if (!text.trim()) {
             alert("Please enter a task description.");
+            // console.log('Empty');
+            
             return;
         }
         if (!dueDate) {
