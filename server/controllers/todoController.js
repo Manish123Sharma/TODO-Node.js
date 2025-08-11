@@ -1,7 +1,9 @@
-import Todo from '../models/Todo.js';
+// import Todo from '../models/Todo.js';
+const { model } = require('mongoose');
+const Todo = require('../models/Todo');
 
 // @desc Get all todos for logged in user
-export const getTodos = async (req, res) => {
+const getTodos = async (req, res) => {
     try {
         const todos = await Todo.find({ user: req.user.id });
         res.json(todos);
@@ -11,7 +13,7 @@ export const getTodos = async (req, res) => {
 };
 
 // @desc Create new task
-export const createTodo = async (req, res) => {
+const createTodo = async (req, res) => {
     const { title } = req.body;
 
     if (!title) {
@@ -30,7 +32,7 @@ export const createTodo = async (req, res) => {
 };
 
 // @desc Update task
-export const updateTodo = async (req, res) => {
+const updateTodo = async (req, res) => {
     try {
         const todo = await Todo.findById(req.params.id);
 
@@ -53,7 +55,7 @@ export const updateTodo = async (req, res) => {
 };
 
 // @desc Delete task
-export const deleteTodo = async (req, res) => {
+const deleteTodo = async (req, res) => {
     try {
         const todo = await Todo.findById(req.params.id);
 
@@ -71,3 +73,11 @@ export const deleteTodo = async (req, res) => {
         res.status(500).json({ message: err.message });
     }
 };
+
+
+module.exports = {
+    deleteTodo,
+    updateTodo,
+    createTodo,
+    getTodos
+}
