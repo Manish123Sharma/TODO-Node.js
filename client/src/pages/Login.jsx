@@ -1,94 +1,135 @@
-import React from 'react';
-import '../App.css';
-import { MDBContainer, MDBCol, MDBRow, MDBBtn, MDBIcon, MDBInput, MDBCheckbox } from 'mdb-react-ui-kit';
-import { Link } from 'react-router-dom';
+// import React from 'react';
+// import './Login.css';
+// import { FaFacebookF, FaGoogle, FaGithub } from "react-icons/fa";
+// import { Link } from 'react-router-dom';
 
+
+// const Login = () => {
+//     return (
+
+//         <div className="login-container">
+//             <div className="login-image">
+//                 <img
+//                     src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp"
+//                     alt="Sample illustration"
+//                 />
+//             </div>
+
+//             <div className="login-form">
+//                 <h1 className="heading">Login</h1>
+
+//                 <input type="email" placeholder="Email address" className="input-field" />
+//                 <input type="password" placeholder="Password" className="input-field" />
+
+//                 <div className="remember-forgot">
+//                     <label>
+//                         <input type="checkbox" /> Remember me
+//                     </label>
+//                     <a href="#">Forgot password?</a>
+//                 </div>
+
+//                 <button className="btn-primary">Login</button>
+
+//                 <div className="divider">
+//                     <span>Or</span>
+//                 </div>
+
+//                 <div className="social-login">
+//                     <p>Sign in with</p>
+//                     <div className="social-icons-login">
+//                         <a href="#"><FaFacebookF /></a>
+//                         <a href="#"><FaGoogle /></a>
+//                         <a href="#"><FaGithub /></a>
+//                     </div>
+//                 </div>
+
+//                 <p className="signup-text-login">
+//                     Don't have an account?{" "}
+//                     <Link to="/signup" className="link-danger-login">
+//                         Register
+//                     </Link>
+//                 </p>
+//             </div>
+//         </div>
+//     );
+// };
+
+// export default Login;
+
+
+import React, { useState } from 'react';
+import './Login.css';
+import { FaFacebookF, FaGoogle, FaGithub } from "react-icons/fa";
+import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { loginUser } from '../redux/authSLice';
 
 const Login = () => {
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const { loading, error } = useSelector((state) => state.auth);
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        dispatch(loginUser({ email, password }))
+            .unwrap()
+            .then(() => navigate("/"))
+            .catch(() => { });
+    };
+
     return (
-        <MDBContainer fluid className="p-3 my-5 h-custom">
+        <div className="login-container">
+            <div className="login-image">
+                <img
+                    src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp"
+                    alt="Sample illustration"
+                />
+            </div>
 
-            <MDBRow>
+            <div className="login-form">
+                <h1 className="heading">Login</h1>
 
-                <MDBCol col='10' md='6'>
-                    <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp" className="img-fluid" alt="Sample illustration" />
-                </MDBCol>
+                <form onSubmit={handleSubmit}>
+                    <input type="email" placeholder="Email address" value={email} onChange={(e) => setEmail(e.target.value)} className="input-field" />
+                    <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} className="input-field" />
 
-                <MDBCol col='4' md='6'>
+                    {error && <p style={{ color: "red" }}>{error}</p>}
 
-                    <h1 className='heading'>Login</h1>
-
-                    <MDBInput wrapperClass='mb-4' label='Email address' id='formControlLg' type='email' size="lg" />
-                    <MDBInput wrapperClass='mb-4' label='Password' id='formControlLg' type='password' size="lg" />
-
-                    <div className="d-flex justify-content-between mb-4">
-                        <MDBCheckbox name='flexCheck' value='' id='flexCheckDefault' label='Remember me' />
-                        <a href="!#">Forgot password?</a>
+                    <div className="remember-forgot">
+                        <label>
+                            <input type="checkbox" /> Remember me
+                        </label>
+                        <a href="#">Forgot password?</a>
                     </div>
 
-                    <div className='text-center text-md-start mt-4 pt-2'>
-                        <MDBBtn className="mb-0 px-5" size='lg'>Login</MDBBtn>
+                    <button type="submit" className="btn-primary" disabled={loading}>
+                        {loading ? "Logging in..." : "Login"}
+                    </button>
+                </form>
 
+                <div className="divider">
+                    <span>Or</span>
+                </div>
 
-                        <div className="divider d-flex align-items-center my-4">
-                            <p className="text-center fw-bold mx-3 mb-0">Or</p>
-                        </div>
-
-                        <div className="d-flex flex-row align-items-center justify-content-center">
-
-                            <p className="lead fw-normal mb-0 me-3">Sign in with</p>
-
-                            <MDBBtn floating size='md' tag='a' className='me-2'>
-                                <MDBIcon fab icon='facebook-f' />
-                            </MDBBtn>
-
-                            <MDBBtn floating size='md' tag='a' className='me-2'>
-                                <MDBIcon fab icon='google' />
-                            </MDBBtn>
-
-                            <MDBBtn floating size='md' tag='a' className='me-2'>
-                                <MDBIcon fab icon='github' />
-                            </MDBBtn>
-
-                        </div>
-
-
-                        <p className="small fw-bold mt-2 pt-1 mb-2">Don't have an account? <Link to="/signup" className="link-danger">Register</Link></p>
+                <div className="social-login">
+                    <p>Sign in with</p>
+                    <div className="social-icons-login">
+                        <a href="#"><FaFacebookF /></a>
+                        <a href="#"><FaGoogle /></a>
+                        <a href="#"><FaGithub /></a>
                     </div>
-
-                </MDBCol>
-
-            </MDBRow>
-
-            {/* <div className="d-flex flex-column flex-md-row text-center text-md-start justify-content-between py-4 px-4 px-xl-5 bg-primary">
-
-                <div className="text-white mb-3 mb-md-0">
-                    Copyright © 2020. All rights reserved.
                 </div>
 
-                <div>
-
-                    <MDBBtn tag='a' color='none' className='mx-3' style={{ color: 'white' }}>
-                        <MDBIcon fab icon='facebook-f' size="md" />
-                    </MDBBtn>
-
-                    <MDBBtn tag='a' color='none' className='mx-3' style={{ color: 'white' }}>
-                        <MDBIcon fab icon='twitter' size="md" />
-                    </MDBBtn>
-
-                    <MDBBtn tag='a' color='none' className='mx-3' style={{ color: 'white' }}>
-                        <MDBIcon fab icon='google' size="md" />
-                    </MDBBtn>
-
-                    <MDBBtn tag='a' color='none' className='mx-3' style={{ color: 'white' }}>
-                        <MDBIcon fab icon='linkedin-in' size="md" />
-                    </MDBBtn>
-
-                </div>
-
-            </div> */}
-
-        </MDBContainer>
+                <p className="signup-text-login">
+                    Don't have an account?{" "}
+                    <Link to="/signup" className="link-danger-login">
+                        Register
+                    </Link>
+                </p>
+            </div>
+        </div>
     );
 };
 

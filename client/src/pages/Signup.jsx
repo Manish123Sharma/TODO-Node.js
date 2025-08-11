@@ -1,102 +1,151 @@
-import React from 'react';
-import '../App.css';
-import {
-    MDBBtn,
-    MDBContainer,
-    MDBRow,
-    MDBCol,
-    MDBCard,
-    MDBCardBody,
-    MDBInput,
-    MDBCheckbox,
-    MDBIcon
-}
-    from 'mdb-react-ui-kit';
-import { Link } from 'react-router-dom';
+// import React from 'react';
+// import { FaFacebookF, FaGoogle, FaGithub } from "react-icons/fa";
+// import './Signup.css';
+// import { Link } from 'react-router-dom';
+
+// const Signup = () => {
+//     return (
+
+//         <div className="signup-container">
+//             <div className="signup-left">
+//                 <h1 className="signup-heading">
+//                     The best offer <br />
+//                     <span>for your business</span>
+//                 </h1>
+//                 <p className="signup-text">
+//                     Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet,
+//                     itaque accusantium odio, soluta, corrupti aliquam quibusdam tempora
+//                     at cupiditate quis eum maiores libero veritatis? Dicta facilis sint
+//                     aliquid ipsum atque?
+//                 </p>
+//             </div>
+
+//             <div className="signup-right">
+//                 <div className="shape shape-1"></div>
+//                 <div className="shape shape-2"></div>
+
+//                 <div className="signup-card">
+//                     <div className="form-row">
+//                         <input type="text" placeholder="First name" />
+//                         <input type="text" placeholder="Last name" />
+//                     </div>
+//                     <input type="email" placeholder="Email" />
+//                     <input type="password" placeholder="Password" />
+
+//                     <label className="checkbox">
+//                         <input type="checkbox" /> Subscribe to our newsletter
+//                     </label>
+
+//                     <button className="signup-btn">Sign up</button>
+
+//                     <div className="social-section">
+//                         <p>or sign up with:</p>
+//                         <div className="social-icons">
+//                             <a href="#" className="social-icon facebook">
+//                                 <FaFacebookF />
+//                             </a>
+//                             <a href="#" className="social-icon google">
+//                                 <FaGoogle />
+//                             </a>
+//                             <a href="#" className="social-icon github">
+//                                 <FaGithub />
+//                             </a>
+//                         </div>
+//                     </div>
+
+//                     <p className="login-text">
+//                         Already have an account?{" "}
+//                         <Link to="/login" className="link-danger">
+//                             Login
+//                         </Link>
+//                     </p>
+//                 </div>
+//             </div>
+//         </div>
+//     );
+// };
+
+// export default Signup;
+
+
+import React, { useState } from 'react';
+import './Signup.css';
+import { FaFacebookF, FaGoogle, FaGithub } from "react-icons/fa";
+import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { signupUser } from '../redux/authSLice';
 
 const Signup = () => {
+    const [firstName, setFirstName] = useState("");
+    const [lastName, setLastName] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const { loading, error } = useSelector((state) => state.auth);
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        dispatch(signupUser({ firstName, lastName, email, password }))
+            .unwrap()
+            .then(() => navigate("/"))
+            .catch(() => { });
+    };
+
     return (
-        <MDBContainer fluid className='p-4 background-radial-gradient overflow-hidden vh-100'>
+        <div className="signup-container">
+            <div className="signup-left">
+                <h1 className="signup-heading">
+                    The best offer <br />
+                    <span>for your business</span>
+                </h1>
+                <p className="signup-text">
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit...
+                </p>
+            </div>
 
-            <MDBRow>
+            <div className="signup-right">
+                <div className="shape shape-1"></div>
+                <div className="shape shape-2"></div>
 
-                <MDBCol md='6' className='text-center text-md-start d-flex flex-column justify-content-center'>
+                <div className="signup-card">
+                    <form onSubmit={handleSubmit}>
+                        <div className="form-row">
+                            <input type="text" placeholder="First name" value={firstName} onChange={(e) => setFirstName(e.target.value)} />
+                            <input type="text" placeholder="Last name" value={lastName} onChange={(e) => setLastName(e.target.value)} />
+                        </div>
+                        <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
+                        <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
 
-                    <h1 className="my-5 display-3 fw-bold ls-tight px-3" style={{ color: 'hsl(218, 81%, 95%)' }}>
-                        The best offer <br />
-                        <span style={{ color: 'hsl(218, 81%, 75%)' }}>for your business</span>
-                    </h1>
+                        {error && <p style={{ color: "red" }}>{error}</p>}
 
-                    <p className='px-3' style={{ color: 'hsl(218, 81%, 85%)' }}>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                        Eveniet, itaque accusantium odio, soluta, corrupti aliquam
-                        quibusdam tempora at cupiditate quis eum maiores libero
-                        veritatis? Dicta facilis sint aliquid ipsum atque?
+                        <label className="checkbox">
+                            <input type="checkbox" /> Subscribe to our newsletter
+                        </label>
+
+                        <button type="submit" className="signup-btn" disabled={loading}>
+                            {loading ? "Signing up..." : "Sign up"}
+                        </button>
+                    </form>
+
+                    <div className="social-section">
+                        <p>or sign up with:</p>
+                        <div className="social-icons">
+                            <a href="#" className="social-icon facebook"><FaFacebookF /></a>
+                            <a href="#" className="social-icon google"><FaGoogle /></a>
+                            <a href="#" className="social-icon github"><FaGithub /></a>
+                        </div>
+                    </div>
+
+                    <p className="login-text">
+                        Already have an account?{" "}
+                        <Link to="/login" className="link-danger">
+                            Login
+                        </Link>
                     </p>
-
-                </MDBCol>
-
-                <MDBCol md='6' className='position-relative'>
-
-                    <div id="radius-shape-1" className="position-absolute rounded-circle shadow-5-strong"></div>
-                    <div id="radius-shape-2" className="position-absolute shadow-5-strong"></div>
-
-                    <MDBCard className='my-5 bg-glass'>
-                        <MDBCardBody className='p-5'>
-
-                            <MDBRow>
-                                <MDBCol col='6'>
-                                    <MDBInput wrapperClass='mb-4' label='First name' id='form1' type='text' />
-                                </MDBCol>
-
-                                <MDBCol col='6'>
-                                    <MDBInput wrapperClass='mb-4' label='Last name' id='form2' type='text' />
-                                </MDBCol>
-                            </MDBRow>
-
-                            <MDBInput wrapperClass='mb-4' label='Email' id='form3' type='email' />
-                            <MDBInput wrapperClass='mb-4' label='Password' id='form4' type='password' />
-
-                            <div className='d-flex justify-content-center mb-4'>
-                                <MDBCheckbox name='flexCheck' value='' id='flexCheckDefault' label='Subscribe to our newsletter' />
-                            </div>
-
-                            <MDBBtn className='w-100 mb-4' size='md'>sign up</MDBBtn>
-
-                            <div className="text-center">
-
-                                <p>or sign up with:</p>
-
-                                <MDBBtn tag='a' color='none' className='mx-3' style={{ color: '#1266f1' }}>
-                                    <MDBIcon fab icon='facebook-f' size="sm" />
-                                </MDBBtn>
-
-                                <MDBBtn tag='a' color='none' className='mx-3' style={{ color: '#1266f1' }}>
-                                    <MDBIcon fab icon='twitter' size="sm" />
-                                </MDBBtn>
-
-                                <MDBBtn tag='a' color='none' className='mx-3' style={{ color: '#1266f1' }}>
-                                    <MDBIcon fab icon='google' size="sm" />
-                                </MDBBtn>
-
-                                <MDBBtn tag='a' color='none' className='mx-3' style={{ color: '#1266f1' }}>
-                                    <MDBIcon fab icon='github' size="sm" />
-                                </MDBBtn>
-
-                            </div>
-
-                            <p className="small fw-bold mt-2 pt-1 mb-2">
-                                Already have account <Link to="/login" className="link-danger">Login</Link>
-                            </p>
-
-                        </MDBCardBody>
-                    </MDBCard>
-
-                </MDBCol>
-
-            </MDBRow>
-
-        </MDBContainer>
+                </div>
+            </div>
+        </div>
     );
 };
 
