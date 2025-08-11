@@ -1,59 +1,73 @@
 import Todo from '../models/Todo.js';
 
+// @desc Get all todos for logged in user
 export const getTodos = async (req, res) => {
     try {
         const todos = await Todo.find({ user: req.user.id });
         res.json(todos);
-    } catch (error) {
-        res.status(500).json({ message: 'Server error' });
+    } catch (err) {
+        res.status(500).json({ message: err.message });
     }
 };
 
+// @desc Create new task
 export const createTodo = async (req, res) => {
-    const { text } = req.body;
-    if (!text) return res.status(400).json({ message: 'Text is required' });
+    const { title } = req.body;
+
+    if (!title) {
+        return res.status(400).json({ message: "Title is required" });
+    }
 
     try {
-        const todo = await Todo.create({ text, user: req.user.id });
+        const todo = await Todo.create({
+            title,
+            user: req.user.id,
+        });
         res.status(201).json(todo);
-    } catch (error) {
-        res.status(500).json({ message: 'Server error' });
+    } catch (err) {
+        res.status(500).json({ message: err.message });
     }
 };
 
+// @desc Update task
 export const updateTodo = async (req, res) => {
     try {
         const todo = await Todo.findById(req.params.id);
-        if (!todo) return res.status(404).json({ message: 'Todo not found' });
 
-        if (todo.user.toString() !== req.user.id) {
-            return res.status(401).json({ message: 'Not authorized' });
+        if (!todo) {
+            return res.status(404).json({ message: "Todo not found" });
         }
 
-        const updatedTodo = await Todo.findByIdAndUpdate(
-            req.params.id,
-            req.body,
-            { new: true }
-        );
+        if (todo.user.toString() !== req.user.id) {
+            return res.status(401).json({ message: "Not authorized" });
+        }
+
+        const updatedTodo = await Todo.findByIdAndUpdate(req.params.id, req.body, {
+            new: true,
+        });
 
         res.json(updatedTodo);
-    } catch (error) {
-        res.status(500).json({ message: 'Server error' });
+    } catch (err) {
+        res.status(500).json({ message: err.message });
     }
 };
 
+// @desc Delete task
 export const deleteTodo = async (req, res) => {
     try {
         const todo = await Todo.findById(req.params.id);
-        if (!todo) return res.status(404).json({ message: 'Todo not found' });
+
+        if (!todo) {
+            return res.status(404).json({ message: "Todo not found" });
+        }
 
         if (todo.user.toString() !== req.user.id) {
-            return res.status(401).json({ message: 'Not authorized' });
+            return res.status(401).json({ message: "Not authorized" });
         }
 
         await todo.deleteOne();
-        res.json({ message: 'Todo removed' });
-    } catch (error) {
-        res.status(500).json({ message: 'Server error' });
+        res.json({ message: "Todo removed" });
+    } catch (err) {
+        res.status(500).json({ message: err.message });
     }
 };
