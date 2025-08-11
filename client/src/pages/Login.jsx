@@ -8,12 +8,12 @@
 //     return (
 
 //         <div className="login-container">
-//             <div className="login-image">
-//                 <img
-//                     src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp"
-//                     alt="Sample illustration"
-//                 />
-//             </div>
+            // <div className="login-image">
+            //     <img
+            //         src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp"
+            //         alt="Sample illustration"
+            //     />
+            // </div>
 
 //             <div className="login-form">
 //                 <h1 className="heading">Login</h1>

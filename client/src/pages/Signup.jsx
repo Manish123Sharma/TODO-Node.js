@@ -1,73 +1,3 @@
-// import React from 'react';
-// import { FaFacebookF, FaGoogle, FaGithub } from "react-icons/fa";
-// import './Signup.css';
-// import { Link } from 'react-router-dom';
-
-// const Signup = () => {
-//     return (
-
-//         <div className="signup-container">
-//             <div className="signup-left">
-//                 <h1 className="signup-heading">
-//                     The best offer <br />
-//                     <span>for your business</span>
-//                 </h1>
-//                 <p className="signup-text">
-//                     Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet,
-//                     itaque accusantium odio, soluta, corrupti aliquam quibusdam tempora
-//                     at cupiditate quis eum maiores libero veritatis? Dicta facilis sint
-//                     aliquid ipsum atque?
-//                 </p>
-//             </div>
-
-//             <div className="signup-right">
-//                 <div className="shape shape-1"></div>
-//                 <div className="shape shape-2"></div>
-
-//                 <div className="signup-card">
-//                     <div className="form-row">
-//                         <input type="text" placeholder="First name" />
-//                         <input type="text" placeholder="Last name" />
-//                     </div>
-//                     <input type="email" placeholder="Email" />
-//                     <input type="password" placeholder="Password" />
-
-//                     <label className="checkbox">
-//                         <input type="checkbox" /> Subscribe to our newsletter
-//                     </label>
-
-//                     <button className="signup-btn">Sign up</button>
-
-//                     <div className="social-section">
-//                         <p>or sign up with:</p>
-//                         <div className="social-icons">
-//                             <a href="#" className="social-icon facebook">
-//                                 <FaFacebookF />
-//                             </a>
-//                             <a href="#" className="social-icon google">
-//                                 <FaGoogle />
-//                             </a>
-//                             <a href="#" className="social-icon github">
-//                                 <FaGithub />
-//                             </a>
-//                         </div>
-//                     </div>
-
-//                     <p className="login-text">
-//                         Already have an account?{" "}
-//                         <Link to="/login" className="link-danger">
-//                             Login
-//                         </Link>
-//                     </p>
-//                 </div>
-//             </div>
-//         </div>
-//     );
-// };
-
-// export default Signup;
-
-
 import React, { useState } from 'react';
 import './Signup.css';
 import { FaFacebookF, FaGoogle, FaGithub } from "react-icons/fa";
@@ -100,7 +30,10 @@ const Signup = () => {
                     <span>for your business</span>
                 </h1>
                 <p className="signup-text">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit...
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet,
+                    itaque accusantium odio, soluta, corrupti aliquam quibusdam tempora
+                    at cupiditate quis eum maiores libero veritatis? Dicta facilis sint
+                    aliquid ipsum atque?
                 </p>
             </div>
 
@@ -139,7 +72,7 @@ const Signup = () => {
 
                     <p className="login-text">
                         Already have an account?{" "}
-                        <Link to="/login" className="link-danger">
+                        <Link to="/home" className="link-danger">
                             Login
                         </Link>
                     </p>

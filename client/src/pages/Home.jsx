@@ -72,57 +72,63 @@
 
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchTodos, createTodo, updateTodo, deleteTodo } from "../redux/todosSlice";
-import TodoInput from "../components/TodoInput";
-import TodoList from "../components/TodoList";
-import FilterButton from "../components/FilterButton";
-import "../App.css";
+import { fetchTodos, addTodo, updateTodo, deleteTodo } from "../redux/todosSlice";
+import '../App.css'
 
 const Home = () => {
     const dispatch = useDispatch();
-    const { items: todos } = useSelector((state) => state.todos);
-    const [filter, setFilter] = useState("All");
+    const { items, loading, error } = useSelector((state) => state.todos);
+    const [text, setText] = useState("");
 
     useEffect(() => {
         dispatch(fetchTodos());
     }, [dispatch]);
 
-    const addTodo = (text, dueDate) => {
-        dispatch(createTodo({ text, dueDate }));
+    const handleAdd = (e) => {
+        e.preventDefault();
+        if (text.trim()) {
+            dispatch(addTodo(text));
+            setText("");
+        }
     };
 
-    const toggleTodo = (id, completed) => {
-        dispatch(updateTodo({ id, updates: { completed: !completed } }));
+    const handleToggle = (id, completed) => {
+        dispatch(updateTodo({ id, completed: !completed }));
     };
 
-    const deleteTodoHandler = (id) => {
+    const handleDelete = (id) => {
         dispatch(deleteTodo(id));
     };
 
-    const editTodo = (id, newText) => {
-        dispatch(updateTodo({ id, updates: { text: newText } }));
-    };
-
-    const filteredTodos = todos.filter((todo) => {
-        if (filter === "Completed") return todo.completed;
-        if (filter === "Incomplete") return !todo.completed;
-        return true;
-    });
-
     return (
-        <div className="home-container">
-            <h2 className="todo-title">✅ My Todo-s</h2>
-            <TodoInput addTodo={addTodo} />
-            <FilterButton filter={filter} setFilter={setFilter} />
-            <TodoList
-                todos={filteredTodos}
-                toggleTodo={(id) => {
-                    const todo = todos.find((t) => t._id === id);
-                    toggleTodo(id, todo.completed);
-                }}
-                deleteTodo={deleteTodoHandler}
-                editTodo={editTodo}
-            />
+        <div style={{ padding: "20px" }}>
+            <h1>My Todos</h1>
+
+            <form onSubmit={handleAdd}>
+                <input
+                    value={text}
+                    onChange={(e) => setText(e.target.value)}
+                    placeholder="Add new todo"
+                />
+                <button type="submit">Add</button>
+            </form>
+
+            {loading && <p>Loading...</p>}
+            {error && <p style={{ color: "red" }}>{error}</p>}
+
+            <ul>
+                {items.map((todo) => (
+                    <li key={todo._id}>
+                        <input
+                            type="checkbox"
+                            checked={todo.completed}
+                            onChange={() => handleToggle(todo._id, todo.completed)}
+                        />
+                        {todo.text}
+                        <button onClick={() => handleDelete(todo._id)}>❌</button>
+                    </li>
+                ))}
+            </ul>
         </div>
     );
 };
