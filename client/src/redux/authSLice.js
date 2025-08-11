@@ -1,13 +1,16 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
+const API_URL = import.meta.env.REACT_APP_API_URL || "http://localhost:3000";
+
 // Login
 export const loginUser = createAsyncThunk(
     "auth/loginUser",
     async ({ email, password }, { rejectWithValue }) => {
         try {
-            const res = await axios.post("http://localhost:5000/api/auth/login", { email, password });
+            const res = await axios.post(`${API_URL}/api/auth/login`, { email, password });
             localStorage.setItem("token", res.data.token);
+            alert('Login Successful');
             return res.data;
         } catch (err) {
             return rejectWithValue(err.response.data.message || "Login failed");
@@ -20,7 +23,7 @@ export const signupUser = createAsyncThunk(
     "auth/signupUser",
     async ({ firstName, lastName, email, password }, { rejectWithValue }) => {
         try {
-            const res = await axios.post("http://localhost:5000/api/auth/signup", {
+            const res = await axios.post(`${API_URL}/api/auth/register`, {
                 firstName,
                 lastName,
                 email,
