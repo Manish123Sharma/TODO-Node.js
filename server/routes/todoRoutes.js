@@ -9,6 +9,7 @@ import {
 
 const router = express.Router();
 
+// All routes are protected (require valid JWT)
 router.route('/')
     .get(protect, getTodos)
     .post(protect, createTodo);
