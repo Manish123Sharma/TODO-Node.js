@@ -9,7 +9,7 @@ const TodoList = ({ todos, toggleTodo, deleteTodo, editTodo }) => {
             {todos.length > 0 ? (
                 todos.map((todo) => (
                     <TodoItem
-                        key={todo.id}
+                        key={todo._id}
                         todo={todo}
                         toggleTodo={toggleTodo}
                         deleteTodo={deleteTodo}

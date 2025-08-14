@@ -18,7 +18,7 @@ const Signup = () => {
         e.preventDefault();
         dispatch(signupUser({ firstName, lastName, email, password }))
             .unwrap()
-            .then(() => navigate("/"))
+            .then(() => navigate("/home"))
             .catch(() => { });
     };
 

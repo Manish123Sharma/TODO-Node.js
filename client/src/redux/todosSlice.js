@@ -1,18 +1,20 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
+const API_URL = import.meta.env.REACT_APP_API_URL || "http://localhost:3000";
+
 // Get todos
 export const fetchTodos = createAsyncThunk(
     "todos/fetchTodos",
     async (_, { getState, rejectWithValue }) => {
         try {
             const token = getState().auth.token;
-            const res = await axios.get("http://localhost:5000/api/todos", {
+            const res = await axios.get(`${API_URL}/api/todos`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             return res.data;
         } catch (err) {
-            return rejectWithValue(err.response.data.message || "Failed to fetch todos");
+            return rejectWithValue(err.response?.data?.message || "Failed to fetch todos");
         }
     }
 );
@@ -20,17 +22,19 @@ export const fetchTodos = createAsyncThunk(
 // Add todo
 export const addTodo = createAsyncThunk(
     "todos/addTodo",
-    async (text, { getState, rejectWithValue }) => {
+    async ({ title, dueDate }, { getState, rejectWithValue }) => {
         try {
+            console.log('Title: ', title);
+            console.log('Date: ', dueDate);
             const token = getState().auth.token;
             const res = await axios.post(
-                "http://localhost:5000/api/todos",
-                { text },
+                `${API_URL}/api/todos`,
+                { title, dueDate }, // ✅ send title
                 { headers: { Authorization: `Bearer ${token}` } }
             );
             return res.data;
         } catch (err) {
-            return rejectWithValue(err.response.data.message || "Failed to add todo");
+            return rejectWithValue(err.response?.data?.message || "Failed to add todo");
         }
     }
 );
@@ -38,17 +42,17 @@ export const addTodo = createAsyncThunk(
 // Update todo
 export const updateTodo = createAsyncThunk(
     "todos/updateTodo",
-    async ({ id, completed }, { getState, rejectWithValue }) => {
+    async ({ id, title, completed, dueDate }, { getState, rejectWithValue }) => {
         try {
             const token = getState().auth.token;
             const res = await axios.put(
-                `http://localhost:5000/api/todos/${id}`,
-                { completed },
+                `${API_URL}/api/todos/${id}`,
+                { ...(title !== undefined && { title }), ...(completed !== undefined && { completed }), ...(dueDate && { dueDate }) },
                 { headers: { Authorization: `Bearer ${token}` } }
             );
             return res.data;
         } catch (err) {
-            return rejectWithValue(err.response.data.message || "Failed to update todo");
+            return rejectWithValue(err.response?.data?.message || "Failed to update todo");
         }
     }
 );
@@ -59,12 +63,12 @@ export const deleteTodo = createAsyncThunk(
     async (id, { getState, rejectWithValue }) => {
         try {
             const token = getState().auth.token;
-            await axios.delete(`http://localhost:5000/api/todos/${id}`, {
+            await axios.delete(`${API_URL}/api/todos/${id}`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             return id;
         } catch (err) {
-            return rejectWithValue(err.response.data.message || "Failed to delete todo");
+            return rejectWithValue(err.response?.data?.message || "Failed to delete todo");
         }
     }
 );

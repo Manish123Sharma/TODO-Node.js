@@ -14,7 +14,7 @@ const getTodos = async (req, res) => {
 
 // @desc Create new task
 const createTodo = async (req, res) => {
-    const { title } = req.body;
+    const { title, dueDate } = req.body;
 
     if (!title) {
         return res.status(400).json({ message: "Title is required" });
@@ -22,7 +22,8 @@ const createTodo = async (req, res) => {
 
     try {
         const todo = await Todo.create({
-            title,
+            title: title,
+            dueDate: dueDate,
             user: req.user.id,
         });
         res.status(201).json(todo);

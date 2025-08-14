@@ -5,57 +5,19 @@ import { FaInfoCircle } from 'react-icons/fa'; // for info icon
 
 const TodoItem = ({ todo, toggleTodo, deleteTodo, editTodo }) => {
     const [isEditing, setIsEditing] = useState(false);
-    const [text, setText] = useState(todo.text);
+    const [text, setText] = useState(todo.title); // ✅ match backend field name
 
     const handleSave = () => {
-        editTodo(todo.id, text);
+        editTodo(todo._id, text); // ✅ pass _id
         setIsEditing(false);
     };
 
     return (
-        // <div className="todo-item">
-        //     <input
-        //         type="checkbox"
-        //         checked={todo.completed}
-        //         onChange={() => toggleTodo(todo.id)}
-        //     />
-
-        //     {isEditing ? (
-        //         <input
-        //             type="text"
-        //             value={text}
-        //             className="edit-input"
-        //             onChange={(e) => setText(e.target.value)}
-        //         />
-        //     ) : (
-        //         <span
-        //             className={`todo-text ${todo.completed ? "completed" : ""}`}
-        //         >
-        //             {todo.text}
-        //         </span>
-        //     )}
-
-        //     <div className="todo-actions">
-        //         {isEditing ? (
-        //             <button className="save-btn" onClick={handleSave}>
-        //                 💾
-        //             </button>
-        //         ) : (
-        //             <button className="edit-btn" onClick={() => setIsEditing(true)}>
-        //                 ✏️
-        //             </button>
-        //         )}
-        //         <button className="delete-btn" onClick={() => deleteTodo(todo.id)}>
-        //             🗑
-        //         </button>
-        //     </div>
-        // </div>
-
         <div className="todo-item">
             <input
                 type="checkbox"
                 checked={todo.completed}
-                onChange={() => toggleTodo(todo.id)}
+                onChange={() => toggleTodo(todo._id)} // ✅ pass _id
             />
 
             {isEditing ? (
@@ -66,10 +28,8 @@ const TodoItem = ({ todo, toggleTodo, deleteTodo, editTodo }) => {
                     onChange={(e) => setText(e.target.value)}
                 />
             ) : (
-                <span
-                    className={`todo-text ${todo.completed ? "completed" : ""}`}
-                >
-                    {todo.text}
+                <span className={`todo-text ${todo.completed ? "completed" : ""}`}>
+                    {todo.title} {/* ✅ match backend */}
                 </span>
             )}
 
@@ -95,7 +55,7 @@ const TodoItem = ({ todo, toggleTodo, deleteTodo, editTodo }) => {
                             ✏️
                         </button>
                     )}
-                    <button className="delete-btn" onClick={() => deleteTodo(todo.id)}>
+                    <button className="delete-btn" onClick={() => deleteTodo(todo._id)}>
                         🗑
                     </button>
                 </div>
@@ -104,13 +64,12 @@ const TodoItem = ({ todo, toggleTodo, deleteTodo, editTodo }) => {
     );
 };
 
-
-
 TodoItem.propTypes = {
     todo: PropTypes.shape({
-        id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
-        text: PropTypes.string.isRequired,
+        _id: PropTypes.string.isRequired,  // ✅ changed from id
+        title: PropTypes.string.isRequired,
         completed: PropTypes.bool.isRequired,
+        dueDate: PropTypes.string,
     }).isRequired,
     toggleTodo: PropTypes.func.isRequired,
     deleteTodo: PropTypes.func.isRequired,
